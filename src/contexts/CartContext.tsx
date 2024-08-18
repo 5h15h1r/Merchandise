@@ -16,6 +16,7 @@ interface CartContextType {
   applyDiscount: (discount: Discount) => void;
   removeDiscount: () => void;
   triggerCartAnimation: () => void;
+  removeAllItems: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -58,6 +59,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const removeFromCart = (productId: number) => {
     setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
+  const removeAllItems = () => {
+    setCart([]);
+    triggerCartAnimation();
+  };
 
   const updateQuantity = (productId: number, quantity: number) => {
     setCart(prevCart =>
@@ -84,7 +89,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       discount, 
       applyDiscount, 
       removeDiscount,
-      triggerCartAnimation, 
+      triggerCartAnimation,
+      removeAllItems, 
     }}>
       {children}
     </CartContext.Provider>
